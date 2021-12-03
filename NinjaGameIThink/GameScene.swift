@@ -31,7 +31,11 @@ class Ball: SKSpriteNode{
 
 }
 
+
 class GameScene: SKScene {
+    
+    let viewWidth = CGFloat(ScreenSize.width)
+    let viewHeight = CGFloat(ScreenSize.height)
     
     //DO DEVICE ERROR CHECKING FOR SCREEN ASPECT RATIO, number of balls based on size and change font size based on width
     let numberOfBalls = 100;
@@ -110,8 +114,8 @@ class GameScene: SKScene {
         
         for i2 in 1...numberOfBalls
         {
-            let randomX = CGFloat.random(in: ballRadius + view.bounds.width/4...view.bounds.width/2 + view.bounds.width/4 - ballRadius)
-            let randomY = CGFloat.random(in: ballRadius + view.bounds.height/4...view.bounds.height/2 + view.bounds.height/4 - ballRadius)
+            let randomX = CGFloat.random(in: ballRadius + viewWidth/4...viewWidth/2 + viewWidth/4 - ballRadius)
+            let randomY = CGFloat.random(in: ballRadius + viewHeight/4...viewHeight/2 + viewHeight/4 - ballRadius)
             let randomZ = CGFloat.random(in: CGFloat(1)...CGFloat(numberOfBalls/2))
             var ballColour = ""
             var isGold = false

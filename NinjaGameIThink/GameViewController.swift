@@ -31,6 +31,13 @@ class GameViewController: UIViewController {
         
         
         
+        
+        let scene = MainMenu(size: CGSize(width: ScreenSize.width, height: ScreenSize.height))
+        scene.scaleMode = .aspectFill
+        skView.presentScene(scene)
+        skView.ignoresSiblingOrder = true
+        
+        
     }
 
     @objc func didTapStartButton()

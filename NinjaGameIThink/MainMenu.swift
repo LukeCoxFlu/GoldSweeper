@@ -21,7 +21,7 @@ class MainMenu: SKScene
         addChild(background)
         
         let button = SKShapeNode(rect: CGRect(x: 0, y: 0, width: frame.width * 0.8, height: frame.height * 0.1))
-        button.position = CGPoint(x: 20, y: 20)
+        button.position = CGPoint(x: frame.width * 0.1, y: 20)
         button.fillColor = .label
         addChild(button)
         
@@ -29,11 +29,8 @@ class MainMenu: SKScene
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        
-        //GameManager.shared.transition(self, toScene: .game)
         GameManager.shared.transition(self, toScene: .game, transitionType: SKTransition.moveIn(with: .down, duration: 2))
-                
+            
    
     }
 }

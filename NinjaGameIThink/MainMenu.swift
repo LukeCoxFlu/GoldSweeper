@@ -13,24 +13,35 @@ import GameplayKit
 
 class MainMenu: SKScene
 {
+    
     override func didMove(to view: SKView) {
         let background = SKSpriteNode(imageNamed: "checkerboard")
         background.position = CGPoint(x: frame.midX, y: frame.midY)
         background.alpha = 0.5
         background.zPosition = -1
         addChild(background)
+        addButtons()
         
-        let button = SKShapeNode(rect: CGRect(x: 0, y: 0, width: frame.width * 0.8, height: frame.height * 0.1))
-        button.position = CGPoint(x: frame.width * 0.1, y: 20)
-        button.fillColor = .label
-        addChild(button)
-        
+       
     }
     
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        GameManager.shared.transition(self, toScene: .game, transitionType: SKTransition.moveIn(with: .down, duration: 2))
+    func addButtons()
+    {
+        let playButton: CSKButton = {
+            let button = CSKButton(fileName: "ballYellow", buttonAction:
+            {
+                GameManager.shared.transition(self, toScene: .map, transitionType: SKTransition.moveIn(with: .down, duration: 2))
+            })
             
-   
+            return button
+        }()
+        
+        
+        anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        playButton.position = CGPoint.zero
+        
+        addChild(playButton)
     }
+    
 }

@@ -12,6 +12,7 @@ class CSKButton: SKNode {
     let button: SKSpriteNode
     private var action: () -> Void
     var isEnabled = true
+    let buttonLable = SKLabelNode()
     
     init(fileName: String, buttonAction: @escaping () -> Void)
     {
@@ -24,6 +25,7 @@ class CSKButton: SKNode {
         button.zPosition = 0
         addChild(button)
     }
+    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -60,6 +62,7 @@ class CSKButton: SKNode {
     {
         isEnabled = false
         button.alpha = 0.5
+        buttonLable.alpha = 0.5
         
     }
     
@@ -67,6 +70,18 @@ class CSKButton: SKNode {
     {
         isEnabled = true
         button.alpha = 1.0
+        button.alpha = 1.0
+    }
+    
+    func initText(fontNamed: String, buttonText: String)
+    {
+        buttonLable.fontName = fontNamed
+        buttonLable.text = buttonText
+        buttonLable.zPosition = 1
+        
+        print(buttonLable.position)
+        
+        addChild(buttonLable)
     }
     
     

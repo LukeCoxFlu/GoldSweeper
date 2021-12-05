@@ -7,53 +7,66 @@
 //
 
 import SpriteKit
+import Foundation
+import CoreGraphics
+
 
 class MapScene: SKScene
 {
+    let background = SKSpriteNode(imageNamed: "Map1")
+    
+    var ShovelLable = SKLabelNode(fontNamed: "HelveticaNeue-Thin")
+    var ShovelCount = 4 {
+        didSet {
+            ShovelLable.text  = "Number Of Shovels: \(ShovelCount)"
+        }
+    }
+    
+    let randomPoint = CGPoint(x:  CGFloat.random(in: 0...ScreenSize.width / 2) , y: CGFloat.random(in: 0...ScreenSize.height))
+    
+    
+    
     override func didMove(to view: SKView) {
+        background.position = CGPoint(x: ScreenSize.width / 2 - 20, y: ScreenSize.height / 2)
         
+        background.scale(to: CGSize(width: ScreenSize.height, height: ScreenSize.height))
+        background.alpha = 0.5
+        background.zPosition = -1
+        addChild(background)
         
-        backgroundColor = .green
+        ShovelLable.text = "Number Of Shovels: 4"
+        ShovelLable.fontSize = frame.width / 15
+        ShovelLable.position = CGPoint(x: 110, y: 20)
         
-        //GRID
+        addChild(ShovelLable)
         
-        let nOfVertGridSquares = 9
-        
-        gridSetup(nOfVertGridSquares)
-        
-        
-        
+        print(randomPoint)
         
     }
     
-    func gridSetup(_ nOfVertGridSquares: Int)
-    {
-        let verticalLines = CGRect(x: 0, y: 0, width: 1, height: ScreenSize.height)
-        let horizonralLines =  CGRect(x: 0, y: 0, width: ScreenSize.width, height: 1)
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touchPos = touches.first?.location(in: self) else {return}
         
-        let gridSize = CGFloat(ScreenSize.height/CGFloat(nOfVertGridSquares))
+        let tex = view?.texture(from: background, crop: CGRect(x: touchPos.x, y: touchPos.y, width: 1, height: 1))
+        let image = tex?.cgImage()
+        let rawData = image?.dataProvider?.data
+        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(rawData)
         
-        let gridHorizontalOffset = Int(ScreenSize.width) % nOfVertGridSquares
+        let g = CGFloat(data[1])
+        let b = CGFloat(data[2])
         
-        let verticalGrid = ScreenSize.height / gridSize
-        let horizontalGrid = ScreenSize.width / gridSize
-        
-        for V in 1...Int(verticalGrid)
+        if(g > b + 20)
         {
-            let newH = SKShapeNode(rect: horizonralLines)
-            newH.position =  CGPoint(x: 0, y: V*Int(gridSize))
-            newH.fillColor = .black
-            newH.alpha = 0.5
-            addChild(newH)
+            ShovelCount = ShovelCount - 1
+        }
+        else
+        {
+            GameManager.shared.transition(self, toScene: .game, transitionType: SKTransition.moveIn(with: .down, duration: 2))
+            
         }
         
-        for H in 1...Int(horizontalGrid)
-        {
-            let newV = SKShapeNode(rect: verticalLines)
-            newV.position = CGPoint(x: H*Int(gridSize) + gridHorizontalOffset/2, y: 0)
-            newV.fillColor = .black
-            newV.alpha = 0.5
-            addChild(newV)
-        }
+        
     }
 }

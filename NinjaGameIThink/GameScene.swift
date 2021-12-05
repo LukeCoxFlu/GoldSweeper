@@ -56,8 +56,9 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         
         // The background
-        let background = SKSpriteNode(imageNamed: "checkerboard")
+        let background = SKSpriteNode(imageNamed: "THEWATER")
         background.position = CGPoint(x: frame.midX, y: frame.midY)
+        background.scale(to: CGSize(width: ScreenSize.height, height: ScreenSize.height))
         background.alpha = 0.5
         background.zPosition = -1
         addChild(background)

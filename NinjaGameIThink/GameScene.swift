@@ -34,8 +34,11 @@ class Ball: SKSpriteNode{
 
 class GameScene: SKScene {
     
+    //Remove these
     let viewWidth = CGFloat(ScreenSize.width)
     let viewHeight = CGFloat(ScreenSize.height)
+    
+    var distanceToSource = CGFloat(-1)
     
     //DO DEVICE ERROR CHECKING FOR SCREEN ASPECT RATIO, number of balls based on size and change font size based on width
     let numberOfBalls = 100;
@@ -99,6 +102,10 @@ class GameScene: SKScene {
         addChild(leftNode)
         
         
+        distanceToSource = GameManager.shared.getDistanceToSource()
+               
+        let scaler = distanceToSource / (ScreenSize.width * ScreenSize.width + ScreenSize.height * ScreenSize.height).squareRoot()
+        print(scaler)
         
         
         let ball = SKSpriteNode(imageNamed: "ballGrey")
@@ -124,14 +131,14 @@ class GameScene: SKScene {
             for item in luckyNumbersz {
                 if(i2 == item)
                 {
-                    ballColour = "ballYellow"
+                    ballColour = "Gold1"
                     isGold = true
                 }
             }
             
             if (ballColour == "")
             {
-                ballColour = "ballGrey"
+                ballColour = "Rock3"
             }
             
             let ball = Ball(gold: isGold, name: ballColour)
@@ -161,8 +168,7 @@ class GameScene: SKScene {
         
         motionManager = CMMotionManager()
         motionManager?.startAccelerometerUpdates()
-        //Code Goes in here
- 
+        
     }
     
     
@@ -182,7 +188,7 @@ class GameScene: SKScene {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
-        let ball = SKSpriteNode(imageNamed: "ballGrey")
+        let ball = SKSpriteNode(imageNamed: "Gold1")
         let ballRadius = ball.frame.width / 2
         
         guard let touchPos = touches.first?.location(in: self) else {return}

@@ -19,6 +19,7 @@ class GameManager{
     
     static let shared = GameManager()
     
+    private var distanceToSourceTemp = CGFloat(-1)
     
     func getScene(_ sceneType: E_GameScenes) -> SKScene?
     {
@@ -46,4 +47,27 @@ class GameManager{
             fromScene.view?.presentScene(scene)
         }
     }
+    
+    func setDistanceToSource(dist: CGFloat)
+    {
+        distanceToSourceTemp = dist
+    }
+    
+    func getDistanceToSource() -> CGFloat
+    {
+        if(distanceToSourceTemp >= 0)
+        {
+            return distanceToSourceTemp
+        }
+        else
+        {
+            return -1
+        }
+    }
+    
+    func resetDist()
+    {
+        distanceToSourceTemp = -1
+    }
+    
 }

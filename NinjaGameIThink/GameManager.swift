@@ -21,6 +21,10 @@ class GameManager{
     
     private var distanceToSourceTemp = CGFloat(-1)
     
+    public var gameStarted = false
+    
+    private var currentPosition = CGPoint(x: 0, y: 0)
+    
     func getScene(_ sceneType: E_GameScenes) -> SKScene?
     {
         switch sceneType{
@@ -70,4 +74,14 @@ class GameManager{
         distanceToSourceTemp = -1
     }
     
+    
+    func setGoldPoint(_ point: CGPoint)
+    {
+        currentPosition = point
+    }
+    
+    func getGoldPoint() -> CGPoint
+    {
+        return currentPosition
+    }
 }

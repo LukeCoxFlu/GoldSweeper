@@ -10,6 +10,8 @@ import SpriteKit
 import GameplayKit
 import CoreMotion
 
+
+
 class Ball: SKSpriteNode{
     var isGold: Bool
     
@@ -38,22 +40,31 @@ class GameScene: SKScene {
     let viewWidth = CGFloat(ScreenSize.width)
     let viewHeight = CGFloat(ScreenSize.height)
     
+    let rocks = ["Rock1", "Rock2", "Rock3", "Rock4"]
+    let golds = ["Gold1", "Gold2"]
+    
     var distanceToSource = CGFloat(-1)
     
     //DO DEVICE ERROR CHECKING FOR SCREEN ASPECT RATIO, number of balls based on size and change font size based on width
     let numberOfBalls = 100;
-    let luckyNumberOfBalls = 2;
-    var goldScore = SKLabelNode(fontNamed: "HelveticaNeue-Thick")
+    var luckyNumberOfBalls = 2;
+    
     var ballNodes: Array<Ball> = [Ball]()
     
     var motionManager: CMMotionManager?
+
     
-    var score = 0 {
+    var timer = Timer()
+    
+    var TimeRemainingLable = SKLabelNode(fontNamed: "HelveticaNeue-Thick")
+    var timeRemaining = 10 {
         didSet {
-            goldScore.text  = "Gold Count: \(score)"
+            if(timeRemaining > 0)
+            {
+                TimeRemainingLable.text  = "Time : \(timeRemaining)"
+            }
         }
     }
-    
     
     
     override func didMove(to view: SKView) {
@@ -104,9 +115,11 @@ class GameScene: SKScene {
         
         distanceToSource = GameManager.shared.getDistanceToSource()
                
-        let scaler = distanceToSource / (ScreenSize.width * ScreenSize.width + ScreenSize.height * ScreenSize.height).squareRoot()
-        print(scaler)
-        
+        var scaler = distanceToSource / (ScreenSize.width * ScreenSize.width + ScreenSize.height * ScreenSize.height).squareRoot()
+        scaler = round(scaler * 10)
+        //Calculating the number of gold based on distance to the source
+        let amountOfGold = 10 - scaler
+        print(amountOfGold)
         
         let ball = SKSpriteNode(imageNamed: "ballGrey")
         let ballRadius = ball.frame.width / 2
@@ -114,7 +127,7 @@ class GameScene: SKScene {
         
         var luckyNumbersz: Array<Int> = [Int]()
         
-        for i  in 1...luckyNumberOfBalls
+        for i  in 1...Int(amountOfGold)
         {
             let randnum = Int.random(in: 1...numberOfBalls)
             luckyNumbersz.append(randnum)
@@ -125,26 +138,26 @@ class GameScene: SKScene {
             let randomX = CGFloat.random(in: ballRadius + viewWidth/4...viewWidth/2 + viewWidth/4 - ballRadius)
             let randomY = CGFloat.random(in: ballRadius + viewHeight/4...viewHeight/2 + viewHeight/4 - ballRadius)
             let randomZ = CGFloat.random(in: CGFloat(1)...CGFloat(numberOfBalls/2))
-            var ballColour = ""
+            var texture = ""
             var isGold = false
             
             for item in luckyNumbersz {
                 if(i2 == item)
                 {
-                    ballColour = "Gold1"
+                    texture = golds[i2%2]
                     isGold = true
                 }
             }
             
-            if (ballColour == "")
+            if (texture == "")
             {
-                ballColour = "Rock3"
+                texture = rocks[i2%4]
             }
             
-            let ball = Ball(gold: isGold, name: ballColour)
+            let ball = Ball(gold: isGold, name: texture)
             ball.position = CGPoint(x: randomX, y: randomY)
             ball.zPosition = randomZ
-            ball.name = ballColour
+            ball.name = texture
             ball.physicsBody = SKPhysicsBody(circleOfRadius: ballRadius)
             ball.physicsBody?.allowsRotation = false
             ball.physicsBody?.affectedByGravity = false
@@ -157,17 +170,19 @@ class GameScene: SKScene {
         }
         
         //Setting up font based on the screen size
-        goldScore.fontSize = frame.width / 20
-        goldScore.position = CGPoint(x: 20, y: 20)
-        goldScore.text = "Gold Count: 0"
-        goldScore.zPosition = CGFloat(numberOfBalls + 1)
-        goldScore.fontColor = UIColor(red: 0.8314, green: 0.6863, blue: 0.2157, alpha: 1)
-        goldScore.horizontalAlignmentMode = .left
-        addChild(goldScore)
+        TimeRemainingLable.fontSize = frame.width / 20
+        TimeRemainingLable.position = CGPoint(x: 20, y: 20)
+        TimeRemainingLable.text = "Time : 10"
+        TimeRemainingLable.zPosition = CGFloat(numberOfBalls + 1)
+        TimeRemainingLable.fontColor = UIColor(red: 0.8314, green: 0.6863, blue: 0.2157, alpha: 1)
+        TimeRemainingLable.horizontalAlignmentMode = .left
+        addChild(TimeRemainingLable)
         
         
         motionManager = CMMotionManager()
         motionManager?.startAccelerometerUpdates()
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(GameScene.timeChanges), userInfo: nil, repeats: true)
         
     }
     
@@ -182,6 +197,16 @@ class GameScene: SKScene {
                 nug.position = CGPoint(x: xP , y: yP)
             }
             //physicsWorld.gravity = CGVector(dx: accelerometerData.acceleration.y * -50, dy: accelerometerData.acceleration.x * 50)
+        }
+        
+        if(timeRemaining <= 0)
+        {
+            TimeRemainingLable.text = "TIMES UP"
+            if(timeRemaining <= 2)
+            {
+                GameManager.shared.transition(self, toScene: .map, transitionType: SKTransition.moveIn(with: .left, duration: 0.2))
+            }
+            
         }
     }
     
@@ -199,12 +224,15 @@ class GameScene: SKScene {
                 let dist = (nug.position.x - touchPos.x) * (nug.position.x - touchPos.x) + (nug.position.y - touchPos.y) * (nug.position.y - touchPos.y)
                 if(dist <= ballRadius * ballRadius)
                 {
-                    score += Int(1)
+                    //score += Int(1)
                 }
 
             }
         }
 
     }
-    
+    @objc func timeChanges() -> Void
+    {
+        timeRemaining -= 1
+    }
 }

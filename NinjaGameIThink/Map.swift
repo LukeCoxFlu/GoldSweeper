@@ -48,6 +48,11 @@ class MapScene: SKScene
             break
         }
         
+        for hole in GameManager.shared.arrayOfHoles
+        {
+            addChild(hole)
+        }
+        
         backgroundMap.position = CGPoint(x: ScreenSize.width / 2 - 20, y: ScreenSize.height / 2)
         
         backgroundMap.scale(to: CGSize(width: ScreenSize.height, height: ScreenSize.height))
@@ -78,7 +83,7 @@ class MapScene: SKScene
         let shape = SKShapeNode(rect: CGRect(x: randomPoint.x, y: randomPoint.y, width: 20, height: 20))
         shape.fillColor = .yellow
         
-        addChild(shape)
+        //addChild(shape)
         
     }
     
@@ -113,13 +118,13 @@ class MapScene: SKScene
                 switch GameManager.shared.difficulty
                 {
                 case .easy:
-                    scoreGainedFromThisWin = 100
+                    scoreGainedFromThisWin = 101
                     break
                 case .medium:
-                    scoreGainedFromThisWin = 400
+                    scoreGainedFromThisWin = 404
                     break
                 case.hard:
-                    scoreGainedFromThisWin = 1600
+                    scoreGainedFromThisWin = 1616
                     break
                 }
                 
@@ -130,14 +135,19 @@ class MapScene: SKScene
                 UserDefaults.standard.synchronize()
                 
                 //Game over code including transition to main menu
-                GameManager.shared.gameStarted = false
-                GameManager.shared.curruntShovels = 4
+                endOfGameAdmin()
                 GameManager.shared.transition(self, toScene: .MainMenu, transitionType: SKTransition.moveIn(with: .up, duration: 3))
             }
             else
             {
                 //Didnt find it so you loose a shovel
                 ShovelCount = ShovelCount - 1
+                let hole = SKShapeNode(circleOfRadius: distanceToTressureToFind)
+                hole.fillColor = .brown
+                hole.strokeColor = .brown
+                hole.position = touchPos
+                addChild(hole)
+                GameManager.shared.arrayOfHoles.append(hole)
             }
         }
         else
@@ -155,7 +165,7 @@ class MapScene: SKScene
         if(ShovelCount <= 0)
         {
             gameOverLable.text = "You loose !"
-            GameManager.shared.gameStarted = false
+            endOfGameAdmin()
             GameManager.shared.transition(self, toScene: .MainMenu, transitionType: SKTransition.moveIn(with: .up, duration: 3))
         }
     }
@@ -186,5 +196,12 @@ class MapScene: SKScene
             
         }
         return newRandomPoint
+    }
+    
+    func endOfGameAdmin()
+    {
+        GameManager.shared.gameStarted = false
+        GameManager.shared.curruntShovels = 4
+        GameManager.shared.arrayOfHoles.removeAll()
     }
 }

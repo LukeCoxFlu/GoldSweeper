@@ -33,6 +33,8 @@ class GameManager{
     public var difficulty = E_Difficulty.easy
     
     public var curruntShovels = 4
+    
+    public var arrayOfHoles: Array<SKShapeNode> = [SKShapeNode]()
 
     
     func getScene(_ sceneType: E_GameScenes) -> SKScene?

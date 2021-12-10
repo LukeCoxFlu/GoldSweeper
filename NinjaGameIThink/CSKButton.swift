@@ -33,6 +33,7 @@ class CSKButton: SKNode {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if isEnabled{
+            run(SKAction.sequence([SKAction.scale(by: 1.05, duration: 0.2) , SKAction.scale(by: 0.91, duration: 0.2)]))
             run(SKAction.scale(by: 1.05, duration: 0.2))
             
         }
@@ -70,7 +71,7 @@ class CSKButton: SKNode {
     {
         isEnabled = true
         button.alpha = 1.0
-        button.alpha = 1.0
+        buttonLable.alpha = 1.0
     }
     
     func initText(fontNamed: String, buttonText: String)
@@ -83,6 +84,12 @@ class CSKButton: SKNode {
         
         addChild(buttonLable)
     }
+    
+    func linearScale(_ scale: CGFloat)
+    {
+        button.scale(to: CGSize(width: scale, height: scale/2))
+    }
+    
     
     
 }

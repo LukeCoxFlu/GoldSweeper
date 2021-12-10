@@ -15,6 +15,10 @@ class GameManager{
         case MainMenu, map, game
     }
     
+    enum E_Difficulty{
+        case easy, medium, hard
+    }
+    
     private init(){}
     
     static let shared = GameManager()
@@ -24,6 +28,8 @@ class GameManager{
     public var gameStarted = false
     
     private var currentPosition = CGPoint(x: 0, y: 0)
+    
+    public var difficulty = E_Difficulty.easy
     
     func getScene(_ sceneType: E_GameScenes) -> SKScene?
     {

@@ -14,7 +14,7 @@ import CoreGraphics
 class MapScene: SKScene
 {
     let backgroundMap = SKSpriteNode(imageNamed: "Map1")
-    let distanceToTressureToFind = CGFloat(200)
+    var distanceToTressureToFind = CGFloat(200)
     
     
     var ShovelLable = SKLabelNode(fontNamed: "HelveticaNeue-Thin")
@@ -32,6 +32,20 @@ class MapScene: SKScene
     
     
     override func didMove(to view: SKView) {
+        
+        switch GameManager.shared.difficulty
+        {
+        case .easy:
+            distanceToTressureToFind = 200
+            break
+        case .medium:
+            distanceToTressureToFind = 100
+            break
+        case.hard:
+            distanceToTressureToFind = 50
+            break
+        }
+        
         backgroundMap.position = CGPoint(x: ScreenSize.width / 2 - 20, y: ScreenSize.height / 2)
         
         backgroundMap.scale(to: CGSize(width: ScreenSize.height, height: ScreenSize.height))

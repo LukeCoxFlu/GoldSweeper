@@ -14,9 +14,11 @@ import CoreMotion
 
 class Ball: SKSpriteNode{
     var isGold: Bool
+    let moveSpeed: CGFloat
+    
     
     override init(texture: SKTexture?, color: UIColor, size: CGSize) {
-        
+        moveSpeed = CGFloat.random(in: 5...15)
         isGold = false
         super.init(texture: texture, color: color, size: size)
     }
@@ -46,8 +48,7 @@ class GameScene: SKScene {
     var distanceToSource = CGFloat(-1)
     
     //DO DEVICE ERROR CHECKING FOR SCREEN ASPECT RATIO, number of balls based on size and change font size based on width
-    let numberOfBalls = 100;
-    var luckyNumberOfBalls = 2;
+    let numberOfBalls = 200;
     
     var ballNodes: Array<Ball> = [Ball]()
     
@@ -119,9 +120,9 @@ class GameScene: SKScene {
         scaler = round(scaler * 10)
         //Calculating the number of gold based on distance to the source
         let amountOfGold = 10 - scaler
-        print(amountOfGold)
         
-        let ball = SKSpriteNode(imageNamed: "ballGrey")
+        
+        let ball = SKSpriteNode(imageNamed: "rock1")
         let ballRadius = ball.frame.width / 2
     
         
@@ -158,7 +159,9 @@ class GameScene: SKScene {
             ball.position = CGPoint(x: randomX, y: randomY)
             ball.zPosition = randomZ
             ball.name = texture
-            ball.physicsBody = SKPhysicsBody(circleOfRadius: ballRadius)
+            ball.scale(to: CGSize(width: frame.width * 0.25, height: frame.width * 0.25))
+            ball.zRotation = CGFloat.random(in: 0.1 ... 6.2)
+            ball.physicsBody = SKPhysicsBody(rectangleOf: ball.size)
             ball.physicsBody?.allowsRotation = false
             ball.physicsBody?.affectedByGravity = false
             ball.physicsBody?.categoryBitMask = 0
@@ -192,11 +195,32 @@ class GameScene: SKScene {
         // Called before each frame is rendered
         if let accelerometerData = motionManager?.accelerometerData {
             for nug in ballNodes {
-                let xP = CGFloat(nug.position.x) + CGFloat(accelerometerData.acceleration.x)
-                let yP = CGFloat(nug.position.y) + CGFloat(accelerometerData.acceleration.y)
-                nug.position = CGPoint(x: xP , y: yP)
+                let xP = CGFloat((nug.physicsBody?.velocity.dx)!)
+                let yP = CGFloat((nug.physicsBody?.velocity.dy)!)
+                
+                
+                //Shuffling the rocks z poition based on how hard the
+                if(CGFloat(accelerometerData.acceleration.x) > 1 || CGFloat(accelerometerData.acceleration.y) > 1)
+                {
+                    nug.zPosition = nug.zPosition + CGFloat.random(in: 1...5)
+                }
+                else if (CGFloat(accelerometerData.acceleration.x) < -2 || CGFloat(accelerometerData.acceleration.y) < -2)
+                {
+                    nug.zPosition = nug.zPosition - CGFloat.random(in: 1...5)
+                }
+                
+                if(nug.zPosition < 1)
+                {
+                    nug.zPosition = 1
+                }
+                if(nug.zPosition > CGFloat(numberOfBalls))
+                {
+                    nug.zPosition = CGFloat(numberOfBalls)
+                }
+                
+                
+                nug.physicsBody?.velocity = CGVector(dx: xP + CGFloat(accelerometerData.acceleration.x) * nug.moveSpeed, dy: yP + CGFloat(accelerometerData.acceleration.y) * nug.moveSpeed)
             }
-            //physicsWorld.gravity = CGVector(dx: accelerometerData.acceleration.y * -50, dy: accelerometerData.acceleration.x * 50)
         }
         
         if(timeRemaining <= 0)
@@ -210,27 +234,6 @@ class GameScene: SKScene {
         }
     }
     
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        let ball = SKSpriteNode(imageNamed: "Gold1")
-        let ballRadius = ball.frame.width / 2
-        
-        guard let touchPos = touches.first?.location(in: self) else {return}
-        
-        for nug in ballNodes {
-            if (nug.isGold)
-            {
-                let dist = (nug.position.x - touchPos.x) * (nug.position.x - touchPos.x) + (nug.position.y - touchPos.y) * (nug.position.y - touchPos.y)
-                if(dist <= ballRadius * ballRadius)
-                {
-                    //score += Int(1)
-                }
-
-            }
-        }
-
-    }
     @objc func timeChanges() -> Void
     {
         timeRemaining -= 1

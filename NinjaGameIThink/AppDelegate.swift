@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let gameViewController = GameViewController()
         window?.rootViewController = gameViewController
+
         
         return true
     }

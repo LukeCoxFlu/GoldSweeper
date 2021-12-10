@@ -34,6 +34,7 @@ class GameViewController: UIViewController {
         
         let scene = MainMenu(size: CGSize(width: ScreenSize.width, height: ScreenSize.height))
         scene.scaleMode = .aspectFill
+        
         skView.presentScene(scene)
         skView.ignoresSiblingOrder = true
         
@@ -43,16 +44,15 @@ class GameViewController: UIViewController {
     
     
     override var shouldAutorotate: Bool {
-         return true
+         return false
      }
-
-     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-         if UIDevice.current.userInterfaceIdiom == .phone {
-             return .allButUpsideDown
-         } else {
-             return .all
-         }
-     }
+    
+    override open var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+       return .portrait
+    }
+    override var preferredInterfaceOrientationForPresentation : UIInterfaceOrientation {
+        return UIInterfaceOrientation.portrait
+    }
 
      override var prefersStatusBarHidden: Bool {
          return true

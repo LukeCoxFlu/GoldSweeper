@@ -31,7 +31,6 @@ class GameViewController: UIViewController {
         
         
         
-        
         let scene = MainMenu(size: CGSize(width: ScreenSize.width, height: ScreenSize.height))
         scene.scaleMode = .aspectFill
         

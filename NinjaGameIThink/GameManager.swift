@@ -11,6 +11,7 @@ import SpriteKit
 
 class GameManager{
     
+    
     enum E_GameScenes{
         case MainMenu, map, game
     }
@@ -30,6 +31,9 @@ class GameManager{
     private var currentPosition = CGPoint(x: 0, y: 0)
     
     public var difficulty = E_Difficulty.easy
+    
+    public var curruntShovels = 4
+
     
     func getScene(_ sceneType: E_GameScenes) -> SKScene?
     {
@@ -57,6 +61,7 @@ class GameManager{
             fromScene.view?.presentScene(scene)
         }
     }
+    
     
     func setDistanceToSource(dist: CGFloat)
     {
@@ -90,4 +95,30 @@ class GameManager{
     {
         return currentPosition
     }
+    
+    //Adding Score Singleton
+    
+    public func firstLanch()
+    {
+        if (!(UserDefaults.standard.integer(forKey: "Score") > 0))
+        {
+            print("First time run")
+            UserDefaults.standard.set(Int(0), forKey: "Score")
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    
+    public func getScore() -> Int
+    {
+        return UserDefaults.standard.integer(forKey: "Score")
+    }
+    
+    public func addToScore(_ addedScore: Int)
+    {
+        let currentScore = getScore()
+        UserDefaults.standard.set(currentScore + addedScore, forKey: "Score")
+        UserDefaults.standard.synchronize()
+    }
+    
 }

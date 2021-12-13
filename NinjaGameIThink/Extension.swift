@@ -8,16 +8,10 @@
 
 import UIKit
 
-
-enum UIUserInterfaceIdiom: Int {
-    case undefined
-    case phone
-    case pad
-}
-
+//Screen struct to help with global acess of bounds
 struct ScreenSize {
     static let width = UIScreen.main.bounds.size.width
     static let height = UIScreen.main.bounds.size.height
-    
+    static let diagonalLength = sqrt((UIScreen.main.bounds.size.width) * (UIScreen.main.bounds.size.width) + (UIScreen.main.bounds.size.height) * (UIScreen.main.bounds.size.height))
 }
 

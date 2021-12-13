@@ -17,16 +17,15 @@ class MapScene: SKScene
     var distanceToTressureToFind = CGFloat(200)
     
     
-    var ShovelLable = SKLabelNode(fontNamed: "HelveticaNeue-Thin")
+    var ShovelLable = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     var ShovelCount = 4 {
         didSet {
             ShovelLable.text  = "Number Of Shovels: \(ShovelCount)"
         }
     }
     
-    var gameOverLable = SKLabelNode(fontNamed: "HelveticaNeue-Thin")
+    var gameOverLable = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
 
-    //let randomPoint = CGPoint(x:  CGFloat.random(in: 0...ScreenSize.width / 2) , y: CGFloat.random(in: 0...ScreenSize.height))
     var randomPoint = CGPoint(x: 0, y: 0)
     
     
@@ -38,13 +37,13 @@ class MapScene: SKScene
         switch GameManager.shared.difficulty
         {
         case .easy:
-            distanceToTressureToFind = 200
+            distanceToTressureToFind = ScreenSize.diagonalLength * 0.14
             break
         case .medium:
-            distanceToTressureToFind = 100
+            distanceToTressureToFind = ScreenSize.diagonalLength * 0.07
             break
         case.hard:
-            distanceToTressureToFind = 50
+            distanceToTressureToFind = ScreenSize.diagonalLength * 0.035
             break
         }
         
@@ -66,6 +65,7 @@ class MapScene: SKScene
         
         gameOverLable.fontSize = frame.width / 5
         gameOverLable.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
+        gameOverLable.fontSize = 64
         addChild(gameOverLable)
         
         
@@ -101,6 +101,8 @@ class MapScene: SKScene
         let g = CGFloat(data[1])
         let b = CGFloat(data[2])
         
+        
+        //print(b + g)
         //Getting the distence from the point touched and the gold
         let dist = (touchPos.x - randomPoint.x) * (touchPos.x - randomPoint.x) + (touchPos.y - randomPoint.y) * (touchPos.y - randomPoint.y)
         

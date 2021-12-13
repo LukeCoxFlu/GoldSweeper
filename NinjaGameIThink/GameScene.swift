@@ -57,7 +57,7 @@ class GameScene: SKScene {
     
     var timer = Timer()
     
-    var TimeRemainingLable = SKLabelNode(fontNamed: "HelveticaNeue-Thick")
+    var TimeRemainingLable = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     var timeRemaining = 10 {
         didSet {
             if(timeRemaining > 0)
@@ -122,7 +122,7 @@ class GameScene: SKScene {
         let amountOfGold = 10 - scaler
         
         
-        let ball = SKSpriteNode(imageNamed: "rock1")
+        let ball = SKSpriteNode(imageNamed: "Rock1")
         let ballRadius = ball.frame.width / 2
     
         
@@ -130,7 +130,7 @@ class GameScene: SKScene {
         
         for i  in 1...Int(amountOfGold)
         {
-            let randnum = Int.random(in: 1...numberOfBalls)
+            let randnum = Int.random(in: i...numberOfBalls)
             luckyNumbersz.append(randnum)
         }
         

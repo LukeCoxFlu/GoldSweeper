@@ -74,13 +74,12 @@ class CSKButton: SKNode {
         buttonLable.alpha = 1.0
     }
     
-    func initText(fontNamed: String, buttonText: String)
+    func initText(fontNamed: String, buttonText: String, fontSize: CGFloat)
     {
         buttonLable.fontName = fontNamed
         buttonLable.text = buttonText
+        buttonLable.fontSize = fontSize
         buttonLable.zPosition = 1
-        
-        print(buttonLable.position)
         
         addChild(buttonLable)
     }

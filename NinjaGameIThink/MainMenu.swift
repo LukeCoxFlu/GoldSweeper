@@ -13,7 +13,7 @@ import GameplayKit
 
 class MainMenu: SKScene
 {
-    let difficultyLable = SKLabelNode(fontNamed: UIFont.italicSystemFont(ofSize: 16).fontName)
+    let difficultyLable = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
     let sideBar = CSKSideBar(isLeftHanded: false, sideBarWidth: 300, backgroundColor: .lightGray)
     
     override func didMove(to view: SKView) {
@@ -21,6 +21,7 @@ class MainMenu: SKScene
         setupGestures()
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
+        //Background
         let background = SKSpriteNode(imageNamed: "THEWATER")
         background.position = CGPoint(x: 0, y: 0)
         background.scale(to: CGSize(width: ScreenSize.height, height: ScreenSize.height))
@@ -28,7 +29,14 @@ class MainMenu: SKScene
         background.zPosition = -1
         addChild(background)
         
+        //Arrow to indicate that you should use a gesture
+        let arrow = SKSpriteNode(imageNamed: "arrow")
+        arrow.position = CGPoint(x: ScreenSize.width * 0.4, y: 0)
+        arrow.alpha = 0.5
+        addChild(arrow)
         
+        //difficulty gotten from the Game manager and assigned to the difficulty lable to make it obvious to the play what difficulty theyre about to play on
+        difficultyLable.fontSize = 32
         switch GameManager.shared.difficulty
         {
         case .easy:
@@ -41,21 +49,23 @@ class MainMenu: SKScene
             difficultyLable.text = "Difficulty: Hard"
             break
         }
-        difficultyLable.position = CGPoint(x: 0, y: -325)
+        difficultyLable.position = CGPoint(x: 0, y: ScreenSize.height * -0.3)
         addChild(difficultyLable)
         
-        
+        // Adding buttons, too cumbersome to put in the main "Did move"
         addButtons()
         
-        
+        // Title and score lable all the nodes in this project are based on the screen size so its compatable with multiple devices
         let title = SKSpriteNode(imageNamed: "Title")
         title.name = "Title"
+        title.size = CGSize(width: ScreenSize.width * 0.9, height: ScreenSize.width / 8.57 * 0.9)
         title.position = CGPoint(x: 0, y: 300)
         addChild(title)
         
-        let score = SKLabelNode(fontNamed: UIFont.boldSystemFont(ofSize: 32).fontName)
+        let score = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
+        score.fontSize = 32
         score.text = "SCORE: \(GameManager.shared.getScore())"
-        score.position = CGPoint(x: 0, y: 200)
+        score.position = CGPoint(x: 0, y: ScreenSize.height * 0.2)
         addChild(score)
         
         
@@ -77,9 +87,9 @@ class MainMenu: SKScene
         }()
         
         
-        playButton.position = CGPoint(x: 0, y: -200)
+        playButton.position = CGPoint(x: 0, y: ScreenSize.height * -0.15)
         playButton.linearScale(frame.width * 0.6)
-        playButton.initText(fontNamed: UIFont.boldSystemFont(ofSize: 32).fontName, buttonText: "Start")
+        playButton.initText(fontNamed: "AmericanTypewriter-Bold", buttonText: "Start", fontSize: 32)
         
         
         addChild(playButton)
@@ -94,9 +104,9 @@ class MainMenu: SKScene
             return button
         }()
         
-        easyButton.position = CGPoint(x: -200, y: -400)
+        easyButton.position = CGPoint(x: -(ScreenSize.width/4), y: -(ScreenSize.height / 2.7))
         easyButton.linearScale(frame.width * 0.2)
-        easyButton.initText(fontNamed: UIFont.boldSystemFont(ofSize: 10).fontName, buttonText: "Easy")
+        easyButton.initText(fontNamed: "AmericanTypewriter-Bold", buttonText: "Easy", fontSize: 16)
         
         addChild(easyButton)
         
@@ -110,9 +120,9 @@ class MainMenu: SKScene
             return button
         }()
         
-        mediumButton.position = CGPoint(x: 0, y: -400)
+        mediumButton.position = CGPoint(x: 0, y: -(ScreenSize.height / 2.7))
         mediumButton.linearScale(frame.width * 0.2)
-        mediumButton.initText(fontNamed: UIFont.boldSystemFont(ofSize: 8).fontName, buttonText: "Medium")
+        mediumButton.initText(fontNamed: "AmericanTypewriter-Bold", buttonText: "Medium", fontSize: 16)
         
         addChild(mediumButton)
         
@@ -125,10 +135,9 @@ class MainMenu: SKScene
             
             return button
         }()
-        
-        hardButton.position = CGPoint(x: 200, y: -400)
+        hardButton.position = CGPoint(x: ScreenSize.width/4, y: -(ScreenSize.height / 2.7))
         hardButton.linearScale(frame.width * 0.2)
-        hardButton.initText(fontNamed: UIFont.boldSystemFont(ofSize: 8).fontName, buttonText: "Hard")
+        hardButton.initText(fontNamed: "AmericanTypewriter-Bold", buttonText: "Hard", fontSize: 16)
         
         addChild(hardButton)
         
@@ -136,7 +145,8 @@ class MainMenu: SKScene
     
     func addSideBarNodes()
     {
-        let SettingsLable = SKLabelNode(fontNamed: UIFont.boldSystemFont(ofSize: 12).fontName)
+        //adding the side bar text and adding buttons to the side bar
+        let SettingsLable = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
         SettingsLable.text = "SETTINGS: "
         sideBar.addNode(SettingsLable, yPositionOutFromMinus1to1: 0.8)
         
@@ -150,7 +160,7 @@ class MainMenu: SKScene
             })
             return button
         }()
-        HomeButton.initText(fontNamed: UIFont.boldSystemFont(ofSize: 8).fontName, buttonText: "HOME")
+        HomeButton.initText(fontNamed: "AmericanTypewriter-Bold", buttonText: "Home", fontSize: 16)
         
         HomeButton.linearScale(250)
         sideBar.addNode(HomeButton, yPositionOutFromMinus1to1: 0)
@@ -163,14 +173,14 @@ class MainMenu: SKScene
             })
             return button
         }()
-        TutorialButton.initText(fontNamed: UIFont.boldSystemFont(ofSize: 8).fontName, buttonText: "TUTORIAL")
+        TutorialButton.initText(fontNamed: "AmericanTypewriter-Bold", buttonText: "Tutorial", fontSize: 16)
         
         TutorialButton.linearScale(250)
         
-        sideBar.addNode(TutorialButton, yPositionOutFromMinus1to1: 0.2)
+        sideBar.addNode(TutorialButton, yPositionOutFromMinus1to1: 0.4)
     }
     
-    
+    //Standard gesture setup
     func setupGestures() {
 
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(MainMenu.handleGesture(_:)))
@@ -187,6 +197,7 @@ class MainMenu: SKScene
     {
         switch sender.direction {
         case UISwipeGestureRecognizer.Direction.left:
+            //Turning off and on the side bar based on gesture
             if(!sideBar.IsEnabled) {sideBar.enable()}
             break
         case UISwipeGestureRecognizer.Direction.right:

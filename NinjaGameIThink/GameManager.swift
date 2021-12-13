@@ -9,6 +9,7 @@
 import Foundation
 import SpriteKit
 
+//Game manager for transfer from scene to scene as well as holding data that is used between scenes
 class GameManager{
     
     

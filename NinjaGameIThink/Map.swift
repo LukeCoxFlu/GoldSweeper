@@ -34,6 +34,7 @@ class MapScene: SKScene
         
         ShovelCount = GameManager.shared.curruntShovels
         
+        //Setting the distance needed to successed based on screen size
         switch GameManager.shared.difficulty
         {
         case .easy:
@@ -47,11 +48,13 @@ class MapScene: SKScene
             break
         }
         
+        //This makes dug holes replicate between scenes
         for hole in GameManager.shared.arrayOfHoles
         {
             addChild(hole)
         }
         
+        //Boiler plate that sets down the poisition of each thing
         backgroundMap.position = CGPoint(x: ScreenSize.width / 2 - 20, y: ScreenSize.height / 2)
         
         backgroundMap.scale(to: CGSize(width: ScreenSize.height, height: ScreenSize.height))
@@ -68,7 +71,7 @@ class MapScene: SKScene
         gameOverLable.fontSize = 64
         addChild(gameOverLable)
         
-        
+        //This makes sure that the same gold point is being used between scenes
         if(!GameManager.shared.gameStarted)
         {
             randomPoint = newRandomPoint()
@@ -80,6 +83,7 @@ class MapScene: SKScene
             randomPoint = GameManager.shared.getGoldPoint()
         }
         
+        //Debug code
         let shape = SKShapeNode(rect: CGRect(x: randomPoint.x, y: randomPoint.y, width: 20, height: 20))
         shape.fillColor = .yellow
         

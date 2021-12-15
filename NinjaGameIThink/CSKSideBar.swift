@@ -5,6 +5,7 @@
 //  Created by COX, LUKE (Student) on 10/12/2021.
 //  Copyright © 2021 COX, LUKE (Student). All rights reserved.
 //
+//  Custome side bar for scene kit
 
 import SpriteKit
 

@@ -11,8 +11,9 @@ import GameplayKit
 import CoreMotion
 
 
-
-class Ball: SKSpriteNode{
+//This class holds all of the values for each rock, the move speed is stored here
+//because otherwise there wouldnt be an even spread when you started shaking the screen
+class rock: SKSpriteNode{
     var isGold: Bool
     let moveSpeed: CGFloat
     
@@ -37,10 +38,7 @@ class Ball: SKSpriteNode{
 
 
 class GameScene: SKScene {
-    
-    //Remove these
-    let viewWidth = CGFloat(ScreenSize.width)
-    let viewHeight = CGFloat(ScreenSize.height)
+
     
     let rocks = ["Rock1", "Rock2", "Rock3", "Rock4"]
     let golds = ["Gold1", "Gold2"]
@@ -50,7 +48,7 @@ class GameScene: SKScene {
     //DO DEVICE ERROR CHECKING FOR SCREEN ASPECT RATIO, number of balls based on size and change font size based on width
     let numberOfBalls = 200;
     
-    var ballNodes: Array<Ball> = [Ball]()
+    var rockNodes: Array<rock> = [rock]()
     
     var motionManager: CMMotionManager?
 
@@ -114,16 +112,16 @@ class GameScene: SKScene {
         addChild(leftNode)
         
         
+        //Calculating the number of gold based on distance to the source
         distanceToSource = GameManager.shared.getDistanceToSource()
                
         var scaler = distanceToSource / (ScreenSize.width * ScreenSize.width + ScreenSize.height * ScreenSize.height).squareRoot()
         scaler = round(scaler * 10)
-        //Calculating the number of gold based on distance to the source
         let amountOfGold = 10 - scaler
         
         
-        let ball = SKSpriteNode(imageNamed: "Rock1")
-        let ballRadius = ball.frame.width / 2
+        let testRock = SKSpriteNode(imageNamed: "Rock1")
+        let rockRadius = testRock.frame.width / 2
     
         
         var luckyNumbersz: Array<Int> = [Int]()
@@ -136,8 +134,8 @@ class GameScene: SKScene {
         
         for i2 in 1...numberOfBalls
         {
-            let randomX = CGFloat.random(in: ballRadius + viewWidth/4...viewWidth/2 + viewWidth/4 - ballRadius)
-            let randomY = CGFloat.random(in: ballRadius + viewHeight/4...viewHeight/2 + viewHeight/4 - ballRadius)
+            let randomX = CGFloat.random(in: rockRadius + CGFloat(ScreenSize.width)/4...CGFloat(ScreenSize.width)/2 + CGFloat(ScreenSize.width)/4 - rockRadius)
+            let randomY = CGFloat.random(in: rockRadius + CGFloat(ScreenSize.height)/4...CGFloat(ScreenSize.height)/2 + CGFloat(ScreenSize.height)/4 - rockRadius)
             let randomZ = CGFloat.random(in: CGFloat(1)...CGFloat(numberOfBalls/2))
             var texture = ""
             var isGold = false
@@ -155,21 +153,21 @@ class GameScene: SKScene {
                 texture = rocks[i2%4]
             }
             
-            let ball = Ball(gold: isGold, name: texture)
-            ball.position = CGPoint(x: randomX, y: randomY)
-            ball.zPosition = randomZ
-            ball.name = texture
-            ball.scale(to: CGSize(width: frame.width * 0.25, height: frame.width * 0.25))
-            ball.zRotation = CGFloat.random(in: 0.1 ... 6.2)
-            ball.physicsBody = SKPhysicsBody(rectangleOf: ball.size)
-            ball.physicsBody?.allowsRotation = false
-            ball.physicsBody?.affectedByGravity = false
-            ball.physicsBody?.categoryBitMask = 0
-            ball.physicsBody?.velocity = CGVector(dx: CGFloat.random(in: -400...400), dy: CGFloat.random(in: -400...400))
+            let Rock = rock(gold: isGold, name: texture)
+            Rock.position = CGPoint(x: randomX, y: randomY)
+            Rock.zPosition = randomZ
+            Rock.name = texture
+            Rock.scale(to: CGSize(width: frame.width * 0.25, height: frame.width * 0.25))
+            Rock.zRotation = CGFloat.random(in: 0.1 ... 6.2)
+            Rock.physicsBody = SKPhysicsBody(rectangleOf: testRock.size)
+            Rock.physicsBody?.allowsRotation = false
+            Rock.physicsBody?.affectedByGravity = false
+            Rock.physicsBody?.categoryBitMask = 0
+            Rock.physicsBody?.velocity = CGVector(dx: CGFloat.random(in: -400...400), dy: CGFloat.random(in: -400...400))
             
             //Adding to the scene and the ball register
-            addChild(ball)
-            ballNodes.append(ball)
+            addChild(Rock)
+            rockNodes.append(Rock)
         }
         
         //Setting up font based on the screen size
@@ -185,6 +183,7 @@ class GameScene: SKScene {
         motionManager = CMMotionManager()
         motionManager?.startAccelerometerUpdates()
         
+        //Setting up count down timer event
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(GameScene.timeChanges), userInfo: nil, repeats: true)
         
     }
@@ -194,7 +193,7 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         if let accelerometerData = motionManager?.accelerometerData {
-            for nug in ballNodes {
+            for nug in rockNodes {
                 let xP = CGFloat((nug.physicsBody?.velocity.dx)!)
                 let yP = CGFloat((nug.physicsBody?.velocity.dy)!)
                 
@@ -238,7 +237,5 @@ class GameScene: SKScene {
     {
         timeRemaining -= 1
     }
-    
-    //SIDE BAR ----------------------
-    
+
 }

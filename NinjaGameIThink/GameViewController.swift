@@ -18,6 +18,8 @@ class GameViewController: UIViewController {
     }()
     
     override func viewDidLoad() {
+        
+        //Sent here from app delegate
         super.viewDidLoad()
         
         view.addSubview(skView)
@@ -30,7 +32,7 @@ class GameViewController: UIViewController {
         
         
         
-        
+        //Asigning the main menu scene to be presented to the user
         let scene = MainMenu(size: CGSize(width: ScreenSize.width, height: ScreenSize.height))
         scene.scaleMode = .aspectFill
         

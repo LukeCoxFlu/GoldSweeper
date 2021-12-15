@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		911F1813275BAEF100406FFA /* CSKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911F1812275BAEF100406FFA /* CSKButton.swift */; };
+		9131E0AA276A4E3B00ACD636 /* tutorialScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9131E0A9276A4E3B00ACD636 /* tutorialScene.swift */; };
+		9131E0AC276A5AA600ACD636 /* backgroundShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 9131E0AB276A5AA600ACD636 /* backgroundShader.fsh */; };
 		9177F770275A960700F8EB87 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9177F76F275A960700F8EB87 /* MainMenu.swift */; };
 		9177F772275A96BD00F8EB87 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9177F771275A96BD00F8EB87 /* Extension.swift */; };
 		9177F774275A9E5400F8EB87 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9177F773275A9E5400F8EB87 /* GameManager.swift */; };
@@ -43,6 +45,8 @@
 
 /* Begin PBXFileReference section */
 		911F1812275BAEF100406FFA /* CSKButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSKButton.swift; sourceTree = "<group>"; };
+		9131E0A9276A4E3B00ACD636 /* tutorialScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tutorialScene.swift; sourceTree = "<group>"; };
+		9131E0AB276A5AA600ACD636 /* backgroundShader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = backgroundShader.fsh; sourceTree = "<group>"; };
 		9177F76F275A960700F8EB87 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		9177F771275A96BD00F8EB87 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		9177F773275A9E5400F8EB87 /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
@@ -127,6 +131,8 @@
 				91A88637273172FE0053A35D /* Info.plist */,
 				911F1812275BAEF100406FFA /* CSKButton.swift */,
 				919273EE2763CB54008D7007 /* CSKSideBar.swift */,
+				9131E0A9276A4E3B00ACD636 /* tutorialScene.swift */,
+				9131E0AB276A5AA600ACD636 /* backgroundShader.fsh */,
 			);
 			path = NinjaGameIThink;
 			sourceTree = "<group>";
@@ -255,6 +261,7 @@
 			files = (
 				91A88628273172FD0053A35D /* GameScene.sks in Resources */,
 				91A88633273172FE0053A35D /* Assets.xcassets in Resources */,
+				9131E0AC276A5AA600ACD636 /* backgroundShader.fsh in Resources */,
 				91A88636273172FE0053A35D /* LaunchScreen.storyboard in Resources */,
 				91A8862A273172FD0053A35D /* Actions.sks in Resources */,
 			);
@@ -281,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9131E0AA276A4E3B00ACD636 /* tutorialScene.swift in Sources */,
 				9177F772275A96BD00F8EB87 /* Extension.swift in Sources */,
 				9177F774275A9E5400F8EB87 /* GameManager.swift in Sources */,
 				91A8862C273172FD0053A35D /* GameScene.swift in Sources */,

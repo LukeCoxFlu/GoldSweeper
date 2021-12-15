@@ -29,6 +29,18 @@ class MainMenu: SKScene
         background.zPosition = -1
         addChild(background)
         
+        //SHADER INIT
+        let uniform: [SKUniform] =
+        [
+            SKUniform(name: "u_speed", float: 2),
+            SKUniform(name: "u_strength", float: 3),
+            SKUniform(name: "u_frequency", float: 10)
+        ]
+        
+        let shaderB = SKShader(fileNamed: "backgroundShader")
+        shaderB.uniforms = uniform
+        background.shader = shaderB
+        
         //Arrow to indicate that you should use a gesture
         let arrow = SKSpriteNode(imageNamed: "arrow")
         arrow.position = CGPoint(x: ScreenSize.width * 0.4, y: 0)
@@ -169,7 +181,7 @@ class MainMenu: SKScene
         let TutorialButton: CSKButton = {
             let button = CSKButton(fileName: "Button", buttonAction:
             {
-                print("Nothing Yet")
+                GameManager.shared.transition(self, toScene: .tutorial, transitionType: SKTransition.push(with: .left, duration: 1))
             })
             return button
         }()

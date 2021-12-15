@@ -14,7 +14,7 @@ class GameManager{
     
     
     enum E_GameScenes{
-        case MainMenu, map, game
+        case MainMenu, map, game, tutorial
     }
     
     enum E_Difficulty{
@@ -47,6 +47,8 @@ class GameManager{
             return GameScene(size: CGSize(width: ScreenSize.width, height: ScreenSize.height))
         case .map:
             return MapScene(size: CGSize(width: ScreenSize.width, height: ScreenSize.height))
+        case .tutorial:
+            return tutorialScene(size: CGSize(width: ScreenSize.width, height: ScreenSize.height))
         }
     }
     

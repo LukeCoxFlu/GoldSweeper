@@ -45,7 +45,7 @@ class CSKSideBar: SKNode {
         path.move(to: CGPoint(x: 0, y: 0))
         path.addLine(to: CGPoint(x: isLeft ? backgroundWidth : -backgroundWidth, y: 0))
         
-        let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 400)
+        let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 600)
         background.run(move)
     }
     
@@ -56,7 +56,7 @@ class CSKSideBar: SKNode {
         path.move(to: CGPoint(x: 0, y: 0))
         path.addLine(to: CGPoint(x: isLeft ? -backgroundWidth : backgroundWidth, y: 0))
         
-        let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 400)
+        let move = SKAction.follow(path.cgPath, asOffset: true, orientToPath: false, speed: 600)
         background.run(move)
     }
     
